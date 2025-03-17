@@ -1,0 +1,478 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>九重天组织</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: #fff;
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      background-color: rgba(52, 73, 94, 0.9);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      width: 100%;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 3em;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+      letter-spacing: 1px;
+    }
+
+    .info-box {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      width: 80%;
+      max-width: 600px;
+      margin-top: 20px;
+      text-align: left;
+      line-height: 1.6;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .info-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .info-box p {
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(52, 73, 94, 0.9);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 1;
+    }
+
+    .sidebar a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #ecf0f1;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #f1c40f;
+    }
+
+    .sidebar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: rgba(52, 73, 94, 0.9);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .openbtn:hover {
+      background-color: #4CAF50;
+    }
+
+    #main {
+      transition: margin-left .5s;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Responsive design */
+    @media screen and (max-height: 450px) {
+      .sidebar {
+        padding-top: 15px;
+      }
+
+      .sidebar a {
+        font-size: 18px;
+      }
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      color: black;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .blur {
+      filter: blur(5px);
+    }
+
+    /* Improved Modal Content Styles */
+    #historyModal .modal-content {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      overflow-y: auto;
+      max-height: 70vh;
+      font-family: 'Georgia', serif;
+    }
+
+    #historyModal .close {
+      color: #555;
+      font-size: 32px;
+      transition: color 0.3s ease;
+    }
+
+    #historyModal .close:hover,
+    #historyModal .close:focus {
+      color: #d32f2f;
+    }
+
+    #historyModal p {
+      font-size: 1.1em;
+      line-height: 1.7;
+      margin-bottom: 25px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      hyphens: auto;
+      word-wrap: break-word;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+
+    #historyModal h2 {
+      font-size: 1.8em;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Improved Info Modal Styles */
+    #infoModal .modal-content {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    #infoModal .close {
+      color: #555;
+      font-size: 32px;
+      transition: color 0.3s ease;
+    }
+
+    #infoModal .close:hover,
+    #infoModal .close:focus {
+      color: #d32f2f;
+    }
+
+    #infoModal p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    #infoModal h2 {
+      font-size: 1.5em;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Member Modal Styles */
+    #memberModal .modal-content {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      overflow-y: auto;
+      max-height: 70vh;
+      font-family: 'Georgia', serif;
+      font-weight: bold;
+    }
+
+    #memberModal .close {
+      color: #555;
+      font-size: 32px;
+      transition: color 0.3s ease;
+    }
+
+    #memberModal .close:hover,
+    #memberModal .close:focus {
+      color: #d32f2f;
+    }
+
+    #memberModal p {
+      font-size: 1.1em;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+      letter-spacing: 0.4px;
+    }
+
+    #memberModal h2 {
+      font-size: 1.8em;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #bdc3c7;
+    }
+
+    .sidebar-footer a {
+      color: #f39c12;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .sidebar-footer a:hover {
+      color: #e67e22;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#" onclick="openHistory()">历史</a>
+    <a href="#" onclick="openMember()">成员</a>
+    <div class="sidebar-footer">
+      九重天组织与哈夫克社区拥有合作关系<br>
+      <a href="https://paxton2333.github.io/hvkcm" target="_blank">哈夫克</a>
+    </div>
+  </div>
+
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">☰ </button>
+    <header>
+      <h1>九重天组织</h1>
+    </header>
+
+    <div class="info-box" onclick="openInfo()">
+      <p>总部九重天群聊人数为21</p>
+      <p>下属小镇萌新联邦人数20</p>
+      <p>总人数为35</p>
+      <p>常在线人数10~15</p>
+      <p>位于坞中客小镇实力T1.5左右</p>
+      <p>请各位镇员放心，当你被欺负后，经调查确认属实，小镇将全力拥护你！</p>
+    </div>
+  </div>
+
+  <!-- The History Modal -->
+  <div id="historyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeHistory()">&times;</span>
+      <h2>九重天组织历史</h2>
+      <p>2024年8月，九重天前身蘑菇小镇由wujianwz(即YULUO）、KeQingBaoBao（已退出）、QAS（即LiMaoBaoBao,已退出）创立。</p>
+      <p>2024年8月末，YULUO退出蘑菇小镇。</p>
+      <p>2024年10月中旬，YULUO创立九重天下属小镇萌新联邦。</p>
+      <p>2024年12月末至2025年初，九重天成立，由YULUO担任镇长，wuuvuuw、lansejikunli担任副镇长。</p>
+      <p>（未完待续）</p>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeInfo()">&times;</span>
+      <h2>九重天组织信息</h2>
+      <p>总部九重天群聊人数为21</p>
+      <p>下属小镇萌新联邦人数20</p>
+      <p>总人数为35</p>
+      <p>常在线人数10~15</p>
+      <p>位于坞中客小镇实力T1.5左右</p>
+      <p>请各位镇员放心，当你被欺负后，经调查确认属实，小镇将全力拥护你！</p>
+    </div>
+  </div>
+
+  <!-- Member Modal -->
+  <div id="memberModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeMember()">&times;</span>
+      <h2>九重天组织成员</h2>
+      <p><b>各部门领导及成员</b></p>
+      <p><b>领导班</b></p>
+      <p>镇长: YULUO</p>
+      <p>副镇长: MnnvnnM</p>
+
+      <p><b>PVP组</b></p>
+      <p>组长: imaow</p>
+      <p>成员:</p>
+
+      <p><b>生电组</b></p>
+      <p>组长: lansejikunli</p>
+      <p>成员: aaa_12532</p>
+      <p>成员: Miss34644</p>
+      <p>组员:</p>
+
+      <p><b>资源组</b></p>
+      <p>组长: zjw258</p>
+      <p>成员: iaaxiaoqi</p>
+      <p>成员: nbfwz</p>
+
+      <p><b>收购组</b></p>
+      <p>组长: CIWEI_0428</p>
+      <p>成员:</p>
+    </div>
+  </div>
+
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+
+    function openHistory() {
+      document.getElementById("historyModal").style.display = "block";
+      document.getElementById("main").classList.add("blur");
+    }
+
+    function closeHistory() {
+      document.getElementById("historyModal").style.display = "none";
+      document.getElementById("main").classList.remove("blur");
+    }
+
+    function openInfo() {
+      document.getElementById("infoModal").style.display = "block";
+      document.getElementById("main").classList.add("blur");
+    }
+
+    function closeInfo() {
+      document.getElementById("infoModal").style.display = "none";
+      document.getElementById("main").classList.remove("blur");
+    }
+
+    function openMember() {
+      document.getElementById("memberModal").style.display = "block";
+      document.getElementById("main").classList.add("blur");
+    }
+
+    function closeMember() {
+      document.getElementById("memberModal").style.display = "none";
+      document.getElementById("main").classList.remove("blur");
+    }
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function (event) {
+      if (event.target == document.getElementById("historyModal")) {
+        closeHistory();
+      }
+      if (event.target == document.getElementById("infoModal")) {
+        closeInfo();
+      }
+      if (event.target == document.getElementById("memberModal")) {
+        closeMember();
+      }
+    }
+  </script>
+
+</body>
+
+</html>
